@@ -11,6 +11,25 @@
 
 std::map<std::string, std::map<char, std::string>> program;
 
+void arrowHandler(Strip& strip){
+	getchar();
+	switch(getchar()){
+   		case 66:
+			strip.nextStep(program);
+   			break;
+   		case 67:
+			strip.screenRight();
+   			break;
+   		case 68:
+			strip.screenLeft();
+   			break;
+   		default:
+			std::cout<<"\x1b[2K";
+   			system ("/bin/stty cooked");
+   			exit(EXIT_FAILURE);
+   	}
+}
+
 void eventHandler(Strip& strip){
 	system("/bin/stty raw");
    	switch(getchar()){
@@ -28,6 +47,11 @@ void eventHandler(Strip& strip){
 			strip.screenLeft();
 			std::cout<<"\x1b[2K";
    			system("/bin/stty cooked");
+   			break;
+		case 27:
+			arrowHandler(strip);
+			std::cout<<"\x1b[2K";
+			system("/bin/stty cooked");
    			break;
    		default:
 			std::cout<<"\x1b[2K";
