@@ -7,6 +7,7 @@
 
 #include "strip.h"
 #include "macros.h"
+#include "TUI-file-picker/filePicker.hpp"
 
 
 std::map<std::string, std::map<char, std::string>> program;
@@ -66,9 +67,9 @@ void loadVariables(Strip& strip, std::string input){
 		strip.insertBack(c);
 	}
 }
-void loadProgram(Strip& strip){
+void loadProgram(Strip& strip, std::string inputFile){
 	std::string line;
-	std::ifstream ReadFile(INPUT_FILE);
+	std::ifstream ReadFile(inputFile);
 	while (true){ 
 		getline(ReadFile,line);
 		if(line[0]!='#' && !line.empty()) break;
@@ -85,8 +86,7 @@ void loadProgram(Strip& strip){
 
 int main(int argc, char* argv[]){
 	Strip strip;
-	loadProgram(strip);
-
+	loadProgram(strip, filePicker("Examples"));
 	while(1){
 		std::cout<<"\x1b[2J"<<"\x1b[H"; //erase screen, return cursor to begining
 		strip.print();
